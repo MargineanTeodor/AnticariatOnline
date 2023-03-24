@@ -28,6 +28,7 @@ public class SiteApplication {
 			//UI ui= new UI(service);
 			//ui.start();
 			service.addUser("Iulia", "pufuleti", Boolean.TRUE);
+			//service.addUser("Doru", "pufuleticusare", Boolean.FALSE);
 			service.addUser("Doru", "pufuleticusare", Boolean.TRUE);
 			service.addCarte(service.findUserByName("Iulia"),"bibliografie",10,10,6,"Doru");
 			service.addCarte(service.findUserByName("Doru"),"bibliografie",10,10,6,"Iulia");

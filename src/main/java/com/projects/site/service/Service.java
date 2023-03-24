@@ -32,13 +32,19 @@ public class Service {
     //admin sa staerga contul
     public void deleteUser(Long id,User user)
     {
-        if(user.getAdmin()) {
-            User x = userRepository.findFirstById(id);
-            if(x.getCarteList()!= null)
-                for (Carte carte : x.getCarteList()) {
-                    deleteCarte(carte.getId());
-                }
-            userRepository.delete(x);
+        try{
+            if(user.getAdmin()) {
+                User x = userRepository.findFirstById(id);
+                if (x.getCarteList() != null)
+                    for (Carte carte : x.getCarteList()) {
+                        deleteCarte(carte.getId());
+                    }
+                userRepository.delete(x);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Nu este admin");
         }
     }
     // stergere anunt
