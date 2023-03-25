@@ -35,7 +35,10 @@ public class ServiceTest {
 
 
 
-    private Service service;
+    private ServiceMasterUserCarte service;
+    private ServiceUser service2;
+    private ServiceCarte service3;
+
     @Mock
     private UserRepository userRepository ;
     @Mock
@@ -70,9 +73,10 @@ public class ServiceTest {
     @Test
     void givenExistingUsername_whenFindByName_thenFindOne()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
-        User user1= service.findUserByName(USERNAME);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 = new ServiceUser(userRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
+        User user1= service2.findUserByName(USERNAME);
         assertNotNull(user1);
         assertEquals(USERNAME, user1.getName());
         assertEquals(PASSW,user1.getPassw());
@@ -82,11 +86,13 @@ public class ServiceTest {
 
     @Test
     void givenExistingCarte_whenFindByName_thenFindOne(){
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2= new ServiceUser(userRepository);
+        service3=new ServiceCarte(carteRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carti1 = new Carte();
-        carti1= service.findFirstCarteByName(NUME);
+        carti1= service3.findFirstCarteByName(NUME);
         assertNotNull(carti1);
         assertEquals(carti1.getName(),NUME);
         assertNotEquals(carti1.getName(),NUMEINEXISTENT);
@@ -103,66 +109,77 @@ public class ServiceTest {
     @Test
     void test_FindCarteByAutor()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 = new ServiceUser(userRepository);
+        service3=new ServiceCarte(carteRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        Carte carte1= service.findFirstCarteByAutor(AUTOR);
+        Carte carte1= service3.findFirstCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
     @Test
     void test_FindAllByAutor()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 = new ServiceUser(userRepository);
+        service3 = new ServiceCarte(carteRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        List<Carte> carte1= service.findCarteByAutor(AUTOR);
+        List<Carte> carte1= service3.findCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
     @Test
     void test_FindAllByName()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service3=new ServiceCarte(carteRepository);
+        service2 = new ServiceUser(userRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        List<Carte> carte1= service.findCarteByName(NUME);
+        List<Carte> carte1= service3.findCarteByName(NUME);
         assertNotNull(carte1);
     }
 
     @Test
     void test_updatePret()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 = new ServiceUser(userRepository);
+        service3=new ServiceCarte(carteRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setPret(carte.getPret());
-        service.updatePret(PRETINEXISTENT,1L);
-        Carte carte2= service.findFirstCarteByName(NUME);
+        service3.updatePret(PRETINEXISTENT,1L);
+        Carte carte2= service3.findFirstCarteByName(NUME);
         assertNotEquals(carte1.getPret(),carte2.getPret());
     }
 
     @Test
     void test_updateStare()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 = new ServiceUser(userRepository);
+        service3=new ServiceCarte(carteRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setStare(carte.getStare());
-        service.updateStare(STAREINEXISTENT,1L);
-        Carte carte2= service.findFirstCarteByName(NUME);
+        service3.updateStare(STAREINEXISTENT,1L);
+        Carte carte2= service3.findFirstCarteByName(NUME);
         assertNotEquals(carte1.getStare(),carte2.getStare());
     }
 
     @Test
     void test_updateParola()
     {
-        service = new Service(carteRepository,userRepository);
-        service.addUser(USERNAME,PASSW,ADMIN);
+        service = new ServiceMasterUserCarte(carteRepository,userRepository);
+        service2 =new ServiceUser(userRepository);
+        service2.addUser(USERNAME,PASSW,ADMIN);
         User user1 = new User();
         user1.setPassw(user.getPassw());
-        service.updateParola(PASSWINEXISTENT,1L);
-        User user2 = service.findUserByName(USERNAME);
+        service2.updateParola(PASSWINEXISTENT,1L);
+        User user2 = service2.findUserByName(USERNAME);
         assertNotEquals(user1.getPassw(),user2.getPassw());
 
     }
@@ -173,7 +190,7 @@ public class ServiceTest {
     void givenNonExistingMarca_whenFindByMarca_thenThrowException() {
         when(carteRepository.findFirstByName(NUME)).thenReturn(null);
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            service.findFirstCarteByName(NUME);
+            service3.findFirstCarteByName(NUME);
         });
     }
 }

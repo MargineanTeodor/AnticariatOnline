@@ -3,8 +3,9 @@ package com.projects.site;
 
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.UserRepository;
-import com.projects.site.service.Service;
-import com.projects.site.ui.UI;
+import com.projects.site.service.ServiceMasterUserCarte;
+import com.projects.site.service.ServiceCarte;
+import com.projects.site.service.ServiceUser;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,19 +25,23 @@ public class SiteApplication {
 	@Bean
 	CommandLineRunner init(CarteRepository carteRepository, UserRepository userRepository) {
 		return args -> {
-			Service service = new Service(carteRepository, userRepository);
+			ServiceMasterUserCarte service = new ServiceMasterUserCarte(carteRepository, userRepository);
+			ServiceUser service2 =new ServiceUser(userRepository);
+			ServiceCarte service3 = new ServiceCarte(carteRepository);
 			//UI ui= new UI(service);
 			//ui.start();
-			service.addUser("Iulia", "pufuleti", Boolean.TRUE);
+			service2.addUser("Iulia", "pufuleti", Boolean.TRUE);
+			service2.addUser("Carmen","ceva",Boolean.FALSE);
+			service2.updateParola("parola",2L);
 			//service.addUser("Doru", "pufuleticusare", Boolean.FALSE);
-			service.addUser("Doru", "pufuleticusare", Boolean.TRUE);
-			service.addCarte(service.findUserByName("Iulia"),"bibliografie",10,10,6,"Doru");
-			service.addCarte(service.findUserByName("Doru"),"bibliografie",10,10,6,"Iulia");
+			service2.addUser("Doru", "pufuleticusare", Boolean.TRUE);
+			service.addCarte(service2.findUserByName("Iulia"),"bibliografie",10,10,6,"Doru");
+			service.addCarte(service2.findUserByName("Doru"),"bibliografie",10,10,6,"Iulia");
 			service.deleteCarte(1L);
-			service.deleteUser(1L,service.findUserByName("Doru"));
-			service.updatePret(15,2L);
-			service.updateStare(10,2L);
-			service.updateParola("parola noua",2L);
+			service.deleteUser(1L,service2.findUserByName("Doru"));
+			service3.updatePret(15,2L);
+			service3.updateStare(10,2L);
+			service2.updateParola("parola noua",2L);
 		};
 	}
 

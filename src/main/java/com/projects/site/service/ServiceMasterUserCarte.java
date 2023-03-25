@@ -5,28 +5,16 @@ import com.projects.site.model.User;
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class Service {
+public class ServiceMasterUserCarte {
 
     private CarteRepository carteRepository;
     private UserRepository userRepository;
 
-    public Service(CarteRepository carteRepository, UserRepository userRepository) {
+    public ServiceMasterUserCarte(CarteRepository carteRepository, UserRepository userRepository) {
         this.carteRepository = carteRepository;
         this.userRepository = userRepository;
-    }
-
-    // register
-    public void addUser(String name, String passw, Boolean admin)
-    {
-        User x =new User();
-        x.setPassw(passw);
-        x.setName(name);
-        x.setAdmin(admin);
-        userRepository.save(x);
     }
 
     //admin sa staerga contul
@@ -75,49 +63,6 @@ public class Service {
         userRepository.save(user);
     }
     // cautare user dupa nume
-    public User findUserByName(String name)
-    {
-        return userRepository.findFirstByName(name);
-    }
     // cautare carte dupa nume
-    public List<Carte> findCarteByName(String name) {
-        List<Carte> carti = carteRepository.findAllByName(name);
-        return carti;
-    }
-    //cautare carte dupa autor
-    public List<Carte> findCarteByAutor(String autor)
-    {
-        return carteRepository.findAllByAutor(autor);
-    }
 
-    // update la pret
-    public void updatePret(int pret, Long id)
-    {
-        Carte x= new Carte();
-        x = carteRepository.findFirstById(id);
-            x.setPret(pret);
-            carteRepository.save(x);
-    }
-    // schimbare parola
-    public void updateParola(String passw, Long id)
-    {
-        User x= userRepository.findFirstById(id);
-        x.setPassw(passw);
-        userRepository.save(x);
-    }
-    // update la stare
-    public void updateStare(int stare, Long id)
-    {
-        Carte x = carteRepository.findFirstById(id);
-        x.setStare(stare);
-        carteRepository.save(x);
-    }
-
-
-    public Carte findFirstCarteByName(String nume) {
-        return carteRepository.findFirstByName(nume);
-    }
-    public Carte findFirstCarteByAutor(String autor) {
-        return carteRepository.findFirstByAutor(autor);
-    }
 }
