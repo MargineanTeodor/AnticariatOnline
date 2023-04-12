@@ -12,6 +12,7 @@ public class ComandaMapper {
         x.setId(comanda.getId());
         x.setPlatita(comanda.isPlatita());
         x.setPret(comanda.getPret());
+        x.setUser(comanda.getUser());
         return x;
     }
     public static Comanda mapDtoToModel(ComandaDTO comanda)
@@ -20,6 +21,7 @@ public class ComandaMapper {
         x.setId(comanda.getId());
         x.setPlatita(comanda.isPlatita());
         x.setPret(comanda.getPret());
+        x.setUser(comanda.getUser());
         return x;
     }
 }

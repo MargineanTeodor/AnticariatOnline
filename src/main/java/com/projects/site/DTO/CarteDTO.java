@@ -1,4 +1,5 @@
 package com.projects.site.DTO;
+import com.projects.site.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +14,5 @@ public class CarteDTO {
     private int pret;
     private int stare;
     private String autor;
+    private User user;
 }

@@ -1,5 +1,9 @@
 package com.projects.site.service;
 
+import com.projects.site.DTO.CarteDTO;
+import com.projects.site.DTO.UserDTO;
+import com.projects.site.mapper.CarteMapper;
+import com.projects.site.mapper.UserMapper;
 import com.projects.site.model.Carte;
 import com.projects.site.model.User;
 import com.projects.site.repository.CarteRepository;
@@ -38,7 +42,10 @@ public class ServiceTest {
     private ServiceMasterUserCarte service;
     private ServiceUser service2;
     private ServiceCarte service3;
-
+    @Mock
+    private CarteMapper carteMapper;
+    @Mock
+    private UserMapper userMapper;
     @Mock
     private UserRepository userRepository ;
     @Mock
@@ -73,10 +80,10 @@ public class ServiceTest {
     @Test
     void givenExistingUsername_whenFindByName_thenFindOne()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 = new ServiceUser(userRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 = new ServiceUser(userRepository,userMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        User user1= service2.findUserByName(USERNAME);
+        UserDTO user1= service2.findUserByName(USERNAME);
         assertNotNull(user1);
         assertEquals(USERNAME, user1.getName());
         assertEquals(PASSW,user1.getPassw());
@@ -86,12 +93,12 @@ public class ServiceTest {
 
     @Test
     void givenExistingCarte_whenFindByName_thenFindOne(){
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2= new ServiceUser(userRepository);
-        service3=new ServiceCarte(carteRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2= new ServiceUser(userRepository,userMapper);
+        service3=new ServiceCarte(carteRepository,carteMapper );
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        Carte carti1 = new Carte();
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        CarteDTO carti1 = new CarteDTO();
         carti1= service3.findFirstCarteByName(NUME);
         assertNotNull(carti1);
         assertEquals(carti1.getName(),NUME);
@@ -109,77 +116,77 @@ public class ServiceTest {
     @Test
     void test_FindCarteByAutor()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 = new ServiceUser(userRepository);
-        service3=new ServiceCarte(carteRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 = new ServiceUser(userRepository,userMapper);
+        service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        Carte carte1= service3.findFirstCarteByAutor(AUTOR);
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        CarteDTO carte1= service3.findFirstCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
     @Test
     void test_FindAllByAutor()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 = new ServiceUser(userRepository);
-        service3 = new ServiceCarte(carteRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 = new ServiceUser(userRepository,userMapper);
+        service3 = new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        List<Carte> carte1= service3.findCarteByAutor(AUTOR);
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        List<CarteDTO> carte1= service3.findCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
     @Test
     void test_FindAllByName()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service3=new ServiceCarte(carteRepository);
-        service2 = new ServiceUser(userRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service3=new ServiceCarte(carteRepository,carteMapper);
+        service2 = new ServiceUser(userRepository,userMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
-        List<Carte> carte1= service3.findCarteByName(NUME);
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        List<CarteDTO> carte1= service3.findCarteByName(NUME);
         assertNotNull(carte1);
     }
 
     @Test
     void test_updatePret()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 = new ServiceUser(userRepository);
-        service3=new ServiceCarte(carteRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 = new ServiceUser(userRepository,userMapper);
+        service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setPret(carte.getPret());
         service3.updatePret(PRETINEXISTENT,1L);
-        Carte carte2= service3.findFirstCarteByName(NUME);
+        CarteDTO carte2= service3.findFirstCarteByName(NUME);
         assertNotEquals(carte1.getPret(),carte2.getPret());
     }
 
     @Test
     void test_updateStare()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 = new ServiceUser(userRepository);
-        service3=new ServiceCarte(carteRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 = new ServiceUser(userRepository,userMapper);
+        service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(user,NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setStare(carte.getStare());
         service3.updateStare(STAREINEXISTENT,1L);
-        Carte carte2= service3.findFirstCarteByName(NUME);
+        CarteDTO carte2= service3.findFirstCarteByName(NUME);
         assertNotEquals(carte1.getStare(),carte2.getStare());
     }
 
     @Test
     void test_updateParola()
     {
-        service = new ServiceMasterUserCarte(carteRepository,userRepository);
-        service2 =new ServiceUser(userRepository);
+        service = new ServiceMasterUserCarte(carteRepository,carteMapper,userMapper,userRepository);
+        service2 =new ServiceUser(userRepository,userMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
         User user1 = new User();
         user1.setPassw(user.getPassw());
         service2.updateParola(PASSWINEXISTENT,1L);
-        User user2 = service2.findUserByName(USERNAME);
+        UserDTO user2 = service2.findUserByName(USERNAME);
         assertNotEquals(user1.getPassw(),user2.getPassw());
 
     }

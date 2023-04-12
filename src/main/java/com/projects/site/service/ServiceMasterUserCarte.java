@@ -1,5 +1,8 @@
 package com.projects.site.service;
 
+import com.projects.site.DTO.UserDTO;
+import com.projects.site.mapper.CarteMapper;
+import com.projects.site.mapper.UserMapper;
 import com.projects.site.model.Carte;
 import com.projects.site.model.User;
 import com.projects.site.repository.CarteRepository;
@@ -12,28 +15,29 @@ public class ServiceMasterUserCarte {
 
     private CarteRepository carteRepository;
     private UserRepository userRepository;
-
-    public ServiceMasterUserCarte(CarteRepository carteRepository, UserRepository userRepository) {
+    private UserMapper userMapper;
+    private CarteMapper carteMapper;
+    public ServiceMasterUserCarte(CarteRepository carteRepository,CarteMapper carteMapper,UserMapper userMapper, UserRepository userRepository) {
         this.carteRepository = carteRepository;
         this.userRepository = userRepository;
+        this.carteMapper= carteMapper;
+        this.userMapper = userMapper;
     }
 
     //admin sa staerga contul
-    public void deleteUser(Long id,User user)
+    public void deleteUser(Long id)
     {
         try{
-            if(user.getAdmin()) {
                 User x = userRepository.findFirstById(id);
                 if (x.getCarteList() != null)
                     for (Carte carte : x.getCarteList()) {
                         deleteCarte(carte.getId());
                     }
                 userRepository.delete(x);
-            }
         }
         catch(Exception e)
         {
-            System.out.println("Nu este admin");
+            System.out.println("User inexistent");
         }
     }
     // stergere anunt
@@ -48,9 +52,10 @@ public class ServiceMasterUserCarte {
         carteRepository.delete(x);
     }
     // adaugare anunt
-    public void addCarte(User user, String name, int pret, int nrPag, int Stare,String autor)
+    public void addCarte(UserDTO user2, String name, int pret, int nrPag, int Stare, String autor)
     {
         Carte x = new Carte();
+        User user = UserMapper.mapDtoToModel(user2);
         x.setUser(user);
         x.setPret(pret);
         x.setStare(nrPag);
@@ -63,7 +68,5 @@ public class ServiceMasterUserCarte {
         user.setCarteList(x2);
         userRepository.save(user);
     }
-    // cautare user dupa nume
-    // cautare carte dupa nume
 
 }

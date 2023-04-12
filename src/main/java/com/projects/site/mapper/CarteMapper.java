@@ -15,6 +15,7 @@ public class CarteMapper {
         x.setPret(carte.getPret());
         x.setStare(carte.getStare());
         x.setNrPag(carte.getNrPag());
+        x.setUser(carte.getUser());
         return x;
     }
     public static Carte mapDtoToModel(CarteDTO carte)
@@ -26,6 +27,7 @@ public class CarteMapper {
         x.setPret(carte.getPret());
         x.setStare(carte.getStare());
         x.setNrPag(carte.getNrPag());
+        x.setUser(carte.getUser());
         return x;
     }
 

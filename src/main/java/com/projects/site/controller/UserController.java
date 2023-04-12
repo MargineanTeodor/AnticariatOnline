@@ -1,15 +1,26 @@
 package com.projects.site.controller;
 
+import com.projects.site.service.ServiceMasterUserCarte;
 import com.projects.site.service.ServiceUser;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private ServiceUser serviceUser;
-    public UserController(ServiceUser x)
+    private ServiceMasterUserCarte serviceMasterUserCarte;
+    public UserController(ServiceUser x,ServiceMasterUserCarte y)
     {
-        this.serviceUser= serviceUser;
+        this.serviceUser= x;
+        this.serviceMasterUserCarte=y;
+    }
+    @RequestMapping(value ="/delete",method = RequestMethod.DELETE)
+    public void delete(@RequestParam Long Id)
+    {
+        serviceMasterUserCarte.deleteUser(Id);
     }
 }

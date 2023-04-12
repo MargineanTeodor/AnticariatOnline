@@ -15,6 +15,8 @@ public class Comanda {
     private Long id;
     private float pret;
     private boolean platita;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private User user;
     @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "id")
     private List<Carte> carteList;
 }

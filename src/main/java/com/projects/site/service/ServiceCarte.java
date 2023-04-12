@@ -1,25 +1,40 @@
 package com.projects.site.service;
 
+import com.projects.site.DTO.CarteDTO;
+import com.projects.site.mapper.CarteMapper;
 import com.projects.site.model.Carte;
 import com.projects.site.repository.CarteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ServiceCarte {
-    private CarteRepository carteRepository;
-    public ServiceCarte(CarteRepository carteRepository)
+    private final CarteRepository carteRepository;
+    private final CarteMapper carteMapper;
+    public ServiceCarte(CarteRepository carteRepository, CarteMapper carteMapper)
     {
         this.carteRepository= carteRepository;
+        this.carteMapper = carteMapper;
     }
 
-    public List<Carte> findCarteByName(String name) {
-        List<Carte> carti = carteRepository.findAllByName(name);
-        return carti;
+    public List<CarteDTO> findCarteByName(String name) {
+        List<Carte> lista = carteRepository.findAllByAutor(name);
+        List<CarteDTO> lista2 = new ArrayList<CarteDTO>();
+        for (Carte e :lista) {
+            lista2.add(CarteMapper.mapModelToDto(e));
+        }
+        return lista2;
     }
-    public List<Carte> findCarteByAutor(String autor)
+    public List<CarteDTO> findCarteByAutor(String autor)
     {
-        return carteRepository.findAllByAutor(autor);
+        List<Carte> lista = carteRepository.findAllByAutor(autor);
+        List<CarteDTO> lista2 = new ArrayList<CarteDTO>();
+        for (Carte e :lista) {
+            lista2.add(CarteMapper.mapModelToDto(e));
+        }
+        return lista2;
     }
     public void updatePret(int pret, Long id) {
         Carte x= new Carte();
@@ -32,10 +47,10 @@ public class ServiceCarte {
         x.setStare(stare);
         carteRepository.save(x);
     }
-    public Carte findFirstCarteByName(String nume) {
-        return carteRepository.findFirstByName(nume);
+    public CarteDTO findFirstCarteByName(String nume) {
+        return CarteMapper.mapModelToDto(carteRepository.findFirstByName(nume));
     }
-    public Carte findFirstCarteByAutor(String autor) {
-        return carteRepository.findFirstByAutor(autor);
+    public CarteDTO findFirstCarteByAutor(String autor) {
+        return CarteMapper.mapModelToDto(carteRepository.findFirstByAutor(autor));
     }
 }

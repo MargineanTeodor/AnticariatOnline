@@ -13,6 +13,8 @@ public class UserMapper {
         x.setName(user.getName());
         x.setPassw(user.getPassw());
         x.setAdmin(user.getAdmin());
+        x.setCarteList(user.getCarteList());
+        x.setComandaList(user.getComenziList());
         return x;
     }
     public static User mapDtoToModel(UserDTO user)
@@ -22,6 +24,8 @@ public class UserMapper {
         x.setId(user.getId());
         x.setAdmin(user.getAdmin());
         x.setName(user.getName());
+        x.setCarteList(user.getCarteList());
+        x.setComenziList(user.getComandaList());
         return x;
     }
 }

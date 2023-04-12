@@ -1,6 +1,9 @@
 package com.projects.site;
 
 
+import com.projects.site.mapper.CarteMapper;
+import com.projects.site.mapper.ComandaMapper;
+import com.projects.site.mapper.UserMapper;
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.ComandaRepository;
 import com.projects.site.repository.UserRepository;
@@ -25,12 +28,12 @@ public class SiteApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository) {
+	CommandLineRunner init(CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository, CarteMapper carteMapper, UserMapper userMapper, ComandaMapper comandaMapper) {
 		return args -> {
-			ServiceMasterUserCarte service = new ServiceMasterUserCarte(carteRepository, userRepository);
-			ServiceUser service2 =new ServiceUser(userRepository);
-			ServiceCarte service3 = new ServiceCarte(carteRepository);
-			ServiceComanda service4 = new ServiceComanda(comandaRepository);
+			ServiceMasterUserCarte service = new ServiceMasterUserCarte(carteRepository, carteMapper,userMapper,userRepository);
+			ServiceUser service2 =new ServiceUser(userRepository,userMapper);
+			ServiceCarte service3 = new ServiceCarte(carteRepository,carteMapper);
+			ServiceComanda service4 = new ServiceComanda(comandaRepository,comandaMapper);
 			//UI ui= new UI(service);
 			//ui.start();
 			service2.addUser("Iulia", "pufuleti", Boolean.TRUE);
@@ -43,7 +46,7 @@ public class SiteApplication {
 			service3.updatePret(15,2L);
 			service3.updateStare(10,2L);
 			service2.updateParola("parola noua",2L);
-			service4.createComanda(service2.findUserByName("Doru"),service2.findUserByName("Doru").getCarteList());
+			service4.createComanda(service2.findUserByName("Doru"),UserMapper.mapDtoToModel(service2.findUserByName("Doru")).getCarteList());
 			service4.updatePlata(1);
 		};
 	}

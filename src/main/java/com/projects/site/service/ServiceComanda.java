@@ -1,5 +1,9 @@
 package com.projects.site.service;
 
+import com.projects.site.DTO.ComandaDTO;
+import com.projects.site.DTO.UserDTO;
+import com.projects.site.mapper.ComandaMapper;
+import com.projects.site.mapper.UserMapper;
 import com.projects.site.model.Carte;
 import com.projects.site.model.Comanda;
 import com.projects.site.model.User;
@@ -10,31 +14,37 @@ import java.util.List;
 @Service
 public class ServiceComanda {
     private ComandaRepository comandaRepository;
-    public ServiceComanda(ComandaRepository comandaRepository2)
+    private ComandaMapper comnadaMapper;
+    public ServiceComanda(ComandaRepository comandaRepository2, ComandaMapper comnadaMapper)
     {
         this.comandaRepository= comandaRepository2;
+        this.comnadaMapper= comnadaMapper;
     }
-    public void createComanda(User user,List<Carte> lista)
+    public void createComanda(UserDTO user,List<Carte> lista)
     {
         Comanda comanda = new Comanda();
+        User x= UserMapper.mapDtoToModel(user);
+        comanda.setUser(x);
         comanda.setPlatita(Boolean.FALSE);
         int sum=0;
-        for (Carte x :lista) {
-            sum+=x.getPret();
+        for (Carte x2 :lista) {
+            sum+=x2.getPret();
         }
         comanda.setPret(sum);
         System.out.println(sum);
         comanda.setCarteList(lista);
         comandaRepository.save(comanda);
     }
-    public Comanda ffindFirstById(int x)
+    public ComandaDTO ffindFirstById(int x)
     {
-        return this.comandaRepository.findFirstById(x);
+        Comanda x2= this.comandaRepository.findFirstById(x);
+        return ComandaMapper.mapModelToDto(x2);
     }
     public void updatePlata(int id)
     {
-        Comanda x=  ffindFirstById(id);
-        x.setPlatita(Boolean.TRUE);
-        comandaRepository.save(x);
+        ComandaDTO x= ffindFirstById(id);
+        Comanda x2= ComandaMapper.mapDtoToModel(x);
+        x2.setPlatita(Boolean.TRUE);
+        comandaRepository.save(x2);
     }
 }
