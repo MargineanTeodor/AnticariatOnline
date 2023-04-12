@@ -4,9 +4,10 @@ import com.projects.site.model.Carte;
 import com.projects.site.model.Comanda;
 import com.projects.site.model.User;
 import com.projects.site.repository.ComandaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ServiceComanda {
     private ComandaRepository comandaRepository;
     public ServiceComanda(ComandaRepository comandaRepository2)

@@ -2,7 +2,9 @@ package com.projects.site.service;
 
 import com.projects.site.model.User;
 import com.projects.site.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServiceUser {
     private UserRepository userRepository;
     public ServiceUser(UserRepository userRepository)

@@ -2,9 +2,10 @@ package com.projects.site.service;
 
 import com.projects.site.model.Carte;
 import com.projects.site.repository.CarteRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ServiceCarte {
     private CarteRepository carteRepository;
     public ServiceCarte(CarteRepository carteRepository)

@@ -4,9 +4,10 @@ import com.projects.site.model.Carte;
 import com.projects.site.model.User;
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ServiceMasterUserCarte {
 
     private CarteRepository carteRepository;
