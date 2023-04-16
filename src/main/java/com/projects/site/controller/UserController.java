@@ -1,5 +1,6 @@
 package com.projects.site.controller;
 
+import com.projects.site.DTO.UserDTO;
 import com.projects.site.service.ServiceMasterUserCarte;
 import com.projects.site.service.ServiceUser;
 import org.springframework.http.HttpStatus;
@@ -22,5 +23,26 @@ public class UserController {
     public void delete(@RequestParam Long Id)
     {
         serviceMasterUserCarte.deleteUser(Id);
+    }
+    @RequestMapping(value ="/login")
+    public ResponseEntity<Boolean> login(@RequestParam String nume, String passw)
+    {
+        Boolean val = serviceUser.login(nume, passw);
+        return ResponseEntity.status(HttpStatus.OK).body(val);
+    }
+    @RequestMapping(value = "/nume", method = RequestMethod.GET)
+    public UserDTO getNume(@RequestParam String nume)
+    {
+        return serviceUser.findUserByName(nume);
+    }
+    @RequestMapping(value="/adduser",method = RequestMethod.PUT)
+    public void addUser(@RequestParam String nume,String parola)
+    {
+        serviceUser.addUser(nume,parola,Boolean.FALSE);
+    }
+    @RequestMapping(value="/findUser",method = RequestMethod.GET)
+    public UserDTO findUser(@RequestParam String nume)
+    {
+        return serviceUser.findUserByName(nume);
     }
 }

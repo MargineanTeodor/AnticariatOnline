@@ -48,6 +48,11 @@ public class SiteApplication {
 			service2.updateParola("parola noua",2L);
 			service4.createComanda(service2.findUserByName("Doru"),UserMapper.mapDtoToModel(service2.findUserByName("Doru")).getCarteList());
 			service4.updatePlata(1);
+			if(service2.login("Iulia","pufuleti"))
+			//if(service2.login("Iulia","pufulei"))
+				System.out.println("Da a mers login");
+			else
+				System.out.println("Nu a mers login");
 		};
 	}
 

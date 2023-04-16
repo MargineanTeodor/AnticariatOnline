@@ -29,6 +29,13 @@ public class ServiceUser {
         x.setComenziList(new ArrayList<Comanda>());
         userRepository.save(x);
     }
+    public Boolean login(String name, String passw)
+    {
+        UserDTO user = this.findUserByName(name);
+        if(user.getPassw().equals(passw))
+            return Boolean.TRUE;
+        return Boolean.FALSE;
+    }
     public UserDTO findUserByName(String name)
     {
         return UserMapper.mapModelToDto(userRepository.findFirstByName(name));
