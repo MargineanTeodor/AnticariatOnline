@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Service
 public class ServiceCarte {
@@ -20,7 +21,8 @@ public class ServiceCarte {
     }
 
     public List<CarteDTO> findCarteByName(String name) {
-        List<Carte> lista = carteRepository.findAllByAutor(name);
+        List<Carte> lista = carteRepository.findAllByName(name);
+        System.out.println(lista.size());
         List<CarteDTO> lista2 = new ArrayList<CarteDTO>();
         for (Carte e :lista) {
             lista2.add(CarteMapper.mapModelToDto(e));
@@ -52,5 +54,18 @@ public class ServiceCarte {
     }
     public CarteDTO findFirstCarteByAutor(String autor) {
         return CarteMapper.mapModelToDto(carteRepository.findFirstByAutor(autor));
+    }
+
+    public List<CarteDTO> findAll2() {
+        List<Carte> lista = carteRepository.findAll();
+        List<CarteDTO> lista2 = new ArrayList<CarteDTO>();
+        for (Carte e :lista) {
+            lista2.add(CarteMapper.mapModelToDto(e));
+        }
+        return lista2;
+    }
+
+    public CarteDTO findFirstCarteById(Long id) {
+        return CarteMapper.mapModelToDto(carteRepository.findFirstById(id));
     }
 }

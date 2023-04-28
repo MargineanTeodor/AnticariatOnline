@@ -97,7 +97,7 @@ public class ServiceTest {
         service2= new ServiceUser(userRepository,userMapper);
         service3=new ServiceCarte(carteRepository,carteMapper );
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         CarteDTO carti1 = new CarteDTO();
         carti1= service3.findFirstCarteByName(NUME);
         assertNotNull(carti1);
@@ -120,7 +120,7 @@ public class ServiceTest {
         service2 = new ServiceUser(userRepository,userMapper);
         service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         CarteDTO carte1= service3.findFirstCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
@@ -131,7 +131,7 @@ public class ServiceTest {
         service2 = new ServiceUser(userRepository,userMapper);
         service3 = new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         List<CarteDTO> carte1= service3.findCarteByAutor(AUTOR);
         assertNotNull(carte1);
     }
@@ -142,7 +142,7 @@ public class ServiceTest {
         service3=new ServiceCarte(carteRepository,carteMapper);
         service2 = new ServiceUser(userRepository,userMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         List<CarteDTO> carte1= service3.findCarteByName(NUME);
         assertNotNull(carte1);
     }
@@ -154,7 +154,7 @@ public class ServiceTest {
         service2 = new ServiceUser(userRepository,userMapper);
         service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setPret(carte.getPret());
         service3.updatePret(PRETINEXISTENT,1L);
@@ -169,7 +169,7 @@ public class ServiceTest {
         service2 = new ServiceUser(userRepository,userMapper);
         service3=new ServiceCarte(carteRepository,carteMapper);
         service2.addUser(USERNAME,PASSW,ADMIN);
-        service.addCarte(UserMapper.mapModelToDto(user),NUME,PRET,NRPAG,STARE,AUTOR);
+        service.addCarte(user.getId(),NUME,PRET,NRPAG,STARE,AUTOR);
         Carte carte1= new Carte();
         carte1.setStare(carte.getStare());
         service3.updateStare(STAREINEXISTENT,1L);

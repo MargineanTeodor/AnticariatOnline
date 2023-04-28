@@ -14,5 +14,4 @@ public class ComandaDTO {
     private Long id;
     private float pret;
     private boolean platita;
-    private User user;
 }

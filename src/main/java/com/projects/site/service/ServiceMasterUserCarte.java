@@ -52,10 +52,10 @@ public class ServiceMasterUserCarte {
         carteRepository.delete(x);
     }
     // adaugare anunt
-    public void addCarte(UserDTO user2, String name, int pret, int nrPag, int Stare, String autor)
+    public void addCarte(Long userid, String name, int pret, int nrPag, int Stare, String autor)
     {
         Carte x = new Carte();
-        User user = UserMapper.mapDtoToModel(user2);
+        User user = userRepository.findFirstById(userid);
         x.setUser(user);
         x.setPret(pret);
         x.setStare(nrPag);

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,10 +28,10 @@ public class UserController {
         serviceMasterUserCarte.deleteUser(Id);
     }
     @RequestMapping(value ="/login")
-    public ResponseEntity<Boolean> login(@RequestParam String nume, String passw)
+    public Boolean login(@RequestParam String nume, String passw)
     {
         Boolean val = serviceUser.login(nume, passw);
-        return ResponseEntity.status(HttpStatus.OK).body(val);
+        return val;
     }
     @RequestMapping(value = "/nume", method = RequestMethod.GET)
     public UserDTO getNume(@RequestParam String nume)

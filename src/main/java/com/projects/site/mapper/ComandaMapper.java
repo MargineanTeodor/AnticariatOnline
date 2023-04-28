@@ -12,16 +12,14 @@ public class ComandaMapper {
         x.setId(comanda.getId());
         x.setPlatita(comanda.isPlatita());
         x.setPret(comanda.getPret());
-        x.setUser(comanda.getUser());
         return x;
     }
     public static Comanda mapDtoToModel(ComandaDTO comanda)
     {
         Comanda x = new Comanda();
         x.setId(comanda.getId());
-        x.setPlatita(comanda.isPlatita());
+        x.setPlatita(Boolean.FALSE);
         x.setPret(comanda.getPret());
-        x.setUser(comanda.getUser());
         return x;
     }
 }
