@@ -4,6 +4,7 @@ import com.projects.site.DTO.ComandaDTO;
 import com.projects.site.DTO.UserDTO;
 import com.projects.site.model.Carte;
 import com.projects.site.service.ServiceComanda;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class ComandaController {
     }
 
     @RequestMapping(value="/createComanda", method = RequestMethod.POST)
-    public void createComanda(@RequestParam int pret )
+    public void createComanda(@Valid @RequestParam int pret )
     {
         serviceComanda.createComanda(pret);
     }

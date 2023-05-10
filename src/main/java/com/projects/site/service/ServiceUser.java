@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ServiceUser {
@@ -26,6 +27,7 @@ public class ServiceUser {
         x.setPassw(passw);
         x.setName(name);
         x.setAdmin(admin);
+        x.setLoged(false);
         x.setCarteList(new ArrayList<Carte>());
         x.setComenziList(new ArrayList<Comanda>());
         userRepository.save(x);
@@ -45,5 +47,44 @@ public class ServiceUser {
         User x= userRepository.findFirstById(id);
         x.setPassw(passw);
         userRepository.save(x);
+    }
+
+    public List<UserDTO> findUserByLogin(Boolean logged) {
+        List<User> x = userRepository.findAllByLoged(logged);
+        List<UserDTO> y= new ArrayList<UserDTO>();
+        for(User e: x)
+        {
+            y.add(UserMapper.mapModelToDto(e));
+        }
+        return y;
+    }
+
+    public void setLogged(Long id) {
+        User x = userRepository.findFirstById(id);
+        x.setLoged(Boolean.TRUE);
+        userRepository.save(x);
+
+    }
+
+    public void setLogged2(Long id) {
+        User x = userRepository.findFirstById(id);
+        x.setLoged(Boolean.FALSE);
+        userRepository.save(x);
+    }
+
+    public void changePassw(Long id, String passw) {
+        User x = userRepository.findFirstById(id);
+        x.setPassw(passw);
+        userRepository.save(x);
+    }
+
+    public List<UserDTO> findNonAdmins(Boolean aFalse) {
+        List<User> x = userRepository.findAllByAdmin(aFalse);
+        List<UserDTO> y = new ArrayList<>();
+        for(User e : x )
+        {
+            y.add(UserMapper.mapModelToDto(e));
+        }
+        return y;
     }
 }

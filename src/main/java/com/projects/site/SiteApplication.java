@@ -7,15 +7,14 @@ import com.projects.site.config.WebConfig;
 import com.projects.site.controller.CarteController;
 import com.projects.site.mapper.CarteMapper;
 import com.projects.site.mapper.ComandaMapper;
+import com.projects.site.mapper.LoggedMapper;
 import com.projects.site.mapper.UserMapper;
 import com.projects.site.model.Carte;
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.ComandaRepository;
+import com.projects.site.repository.LoggedRepository;
 import com.projects.site.repository.UserRepository;
-import com.projects.site.service.ServiceComanda;
-import com.projects.site.service.ServiceMasterUserCarte;
-import com.projects.site.service.ServiceCarte;
-import com.projects.site.service.ServiceUser;
+import com.projects.site.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,7 +34,7 @@ public class SiteApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository, CarteMapper carteMapper, UserMapper userMapper, ComandaMapper comandaMapper) {
+	CommandLineRunner init(LoggedMapper loggedMapper, LoggedRepository loggedRepository, CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository, CarteMapper carteMapper, UserMapper userMapper, ComandaMapper comandaMapper) {
 		return args -> {
 			WebConfig webConfig =new WebConfig();
 			webConfig.corsConfigurer();
@@ -43,18 +42,19 @@ public class SiteApplication {
 			ServiceUser service2 =new ServiceUser(userRepository,userMapper);
 			ServiceCarte service3 = new ServiceCarte(carteRepository,carteMapper);
 			ServiceComanda service4 = new ServiceComanda(comandaRepository,comandaMapper,userRepository,carteRepository);
+			LoggedService service5 = new LoggedService(loggedRepository,loggedMapper);
 			//UI ui= new UI(service);
 			//ui.start();
-			service2.addUser("Carmen","ceva",Boolean.FALSE);
+			service2.addUser("Carmen","cevaaa",Boolean.FALSE);
 			service2.addUser("Iulia", "pufuleti", Boolean.TRUE);
 			service2.updateParola("parola",2L);
 			//service.addUser("Doru", "pufuleticusare", Boolean.FALSE);
-			service2.addUser("Doru", "pufuleticusare", Boolean.TRUE);
-			service.addCarte(2L,"bibliografie",10,10,6,"Doru");
+			service2.addUser("Doruu", "pufuleticusare", Boolean.TRUE);
+			service.addCarte(2L,"bibliografie",10,23,3,"Doru");
 			service.addCarte(3L,"2",10,10,6,"Iulia");
-			service.addCarte(3L,"sa nu mor prost",10,10,6,"Dc mergi");
+			service.addCarte(3L,"sa nu mor prost",10,22,6,"Dc mergi");
 			service.deleteCarte(3L);
-			service.addCarte(2L,"sa nu mor prost",10,10,6,"Dc mergi");
+			service.addCarte(2L,"sa nu mor prost",10,35,6,"Dc mergi");
 			service3.updatePret(15,2L);
 			service3.updateStare(10,2L);
 			service2.updateParola("parola noua",2L);
@@ -65,7 +65,8 @@ public class SiteApplication {
 				System.out.println("Da a mers login");
 			else
 				System.out.println("Nu a mers login");
-
+			service5.login(1L);
+			service5.logout(1L);
 		};
 	}
 

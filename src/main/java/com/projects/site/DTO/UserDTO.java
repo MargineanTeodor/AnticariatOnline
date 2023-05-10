@@ -16,6 +16,7 @@ public class UserDTO {
     private String name;
     private String passw;
     private Boolean admin;
+    private Boolean loged;
     private List<Carte> carteList;
     private List<Comanda> comandaList;
 }
