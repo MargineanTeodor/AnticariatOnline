@@ -82,4 +82,9 @@ public class UserController {
     {
         return serviceUser.findNonAdmins(Boolean.FALSE);
     }
+    @RequestMapping(value="/firstId",method = RequestMethod.GET)
+    public UserDTO getUserById(@RequestParam Long id)
+    {
+        return serviceUser.getUserById(id);
+    }
 }

@@ -87,4 +87,9 @@ public class ServiceUser {
         }
         return y;
     }
+
+    public UserDTO getUserById(Long id) {
+        User x = userRepository.findFirstById(id);
+        return UserMapper.mapModelToDto(x);
+    }
 }
