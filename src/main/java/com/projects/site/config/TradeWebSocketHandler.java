@@ -30,8 +30,8 @@ public class TradeWebSocketHandler extends TextWebSocketHandler {
             else
             {
                 sem=0;
-               // x = new Textul("Puneti anuntul acum!!",i);
-                x= new Textul("Am uitat un s si am stat la asta o ora pana l-am gasit",i);
+                x = new Textul("Puneti anuntul acum!!",i);
+               // x= new Textul("Am uitat un s si am stat la asta o ora pana l-am gasit",i);
             }
             TextMessage message= new TextMessage(objectMapper.writeValueAsString(x));
             session.sendMessage(message);

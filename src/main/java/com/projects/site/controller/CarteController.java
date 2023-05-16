@@ -65,7 +65,7 @@ public class CarteController {
         serviceCarte.updatePret(stare, id);
     }
     @RequestMapping(value ="/createCarte", method = RequestMethod.POST)
-    public void createCarte(@Valid @RequestParam Long userId, String nume, int pret, int nrPag, int stare, String autor)
+    public void createCarte( @RequestParam Long userId, String nume, Integer pret, Integer nrPag, Integer stare, String autor)
     {
         serviceMasterUserCarte.addCarte(userId,nume,pret,nrPag,stare,autor);
     }

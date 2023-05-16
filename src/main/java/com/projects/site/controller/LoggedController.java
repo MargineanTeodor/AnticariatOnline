@@ -27,5 +27,10 @@ public class LoggedController {
     public List<LoggedDTO> all(){
         return loggedService.getALl();
     }
+    @RequestMapping(value= "/XML", method = RequestMethod.GET)
+    public void generateXML(@RequestParam long id)
+    {
+        loggedService.saveUserToXML(id);
+    }
 
 }

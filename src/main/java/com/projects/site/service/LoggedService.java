@@ -5,10 +5,15 @@ import com.projects.site.mapper.LoggedMapper;
 import com.projects.site.model.Logged;
 import com.projects.site.repository.CarteRepository;
 import com.projects.site.repository.LoggedRepository;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -44,5 +49,16 @@ public class LoggedService {
             y.add(LoggedMapper.mapModelToDto(e));
         }
         return y;
+    }
+    public void saveUserToXML(Long id) {
+        Optional<Logged> user = loggedRepository.findById(id);
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Logged.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(user.get(), new File("Logged" + ".xml"));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }

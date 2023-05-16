@@ -5,15 +5,9 @@ import com.projects.site.DTO.CarteDTO;
 import com.projects.site.DTO.ComandaDTO;
 import com.projects.site.config.WebConfig;
 import com.projects.site.controller.CarteController;
-import com.projects.site.mapper.CarteMapper;
-import com.projects.site.mapper.ComandaMapper;
-import com.projects.site.mapper.LoggedMapper;
-import com.projects.site.mapper.UserMapper;
+import com.projects.site.mapper.*;
 import com.projects.site.model.Carte;
-import com.projects.site.repository.CarteRepository;
-import com.projects.site.repository.ComandaRepository;
-import com.projects.site.repository.LoggedRepository;
-import com.projects.site.repository.UserRepository;
+import com.projects.site.repository.*;
 import com.projects.site.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,7 +28,7 @@ public class SiteApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(LoggedMapper loggedMapper, LoggedRepository loggedRepository, CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository, CarteMapper carteMapper, UserMapper userMapper, ComandaMapper comandaMapper) {
+	CommandLineRunner init(ReviewRepository reviewRepository, ReviewMapper reviewMapper, LoggedMapper loggedMapper, LoggedRepository loggedRepository, CarteRepository carteRepository, UserRepository userRepository, ComandaRepository comandaRepository, CarteMapper carteMapper, UserMapper userMapper, ComandaMapper comandaMapper) {
 		return args -> {
 			WebConfig webConfig =new WebConfig();
 			webConfig.corsConfigurer();
@@ -43,12 +37,10 @@ public class SiteApplication {
 			ServiceCarte service3 = new ServiceCarte(carteRepository,carteMapper);
 			ServiceComanda service4 = new ServiceComanda(comandaRepository,comandaMapper,userRepository,carteRepository);
 			LoggedService service5 = new LoggedService(loggedRepository,loggedMapper);
-			//UI ui= new UI(service);
-			//ui.start();
+			ReviewService service6 = new ReviewService(reviewRepository,reviewMapper);
 			service2.addUser("Carmen","cevaaa",Boolean.FALSE);
 			service2.addUser("Iulia", "pufuleti", Boolean.TRUE);
 			service2.updateParola("parola",2L);
-			//service.addUser("Doru", "pufuleticusare", Boolean.FALSE);
 			service2.addUser("Doruu", "pufuleticusare", Boolean.TRUE);
 			service.addCarte(2L,"bibliografie",10,23,3,"Doru");
 			service.addCarte(3L,"2",10,10,6,"Iulia");
@@ -67,6 +59,8 @@ public class SiteApplication {
 				System.out.println("Nu a mers login");
 			service5.login(1L);
 			service5.logout(1L);
+			service5.saveUserToXML(1L);
+			service6.addReview(2l,"e de treaba");
 		};
 	}
 
